@@ -139,7 +139,7 @@ public class SnapshotS3Util extends Configured implements Tool
             
             if (snapshots != null) {
                 for (SnapshotDescription snapshot : snapshots) {
-                    if(snapshot.getName().indexOf("backup-snapshot") == -1) {
+                    if(!snapshot.getName().contains("backup-snapshot")) {
                         continue;
                     }
                     long created = snapshot.getCreationTime();
@@ -274,7 +274,7 @@ public class SnapshotS3Util extends Configured implements Tool
                 "-mappers",
                 Long.toString(mappers)
             };
-            
+
             // Override dfs configuration to point to S3
             config.set("fs.default.name", s3protocol + accessKey + ":" + accessSecret + "@" + bucketName);
             config.set("fs.defaultFS", s3protocol + accessKey + ":" + accessSecret  + "@" + bucketName);
