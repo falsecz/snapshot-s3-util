@@ -19,12 +19,12 @@
     </licenses>
 
     <properties>
-        <hbaseVersion>0.94.6-cdh4.3.0</hbaseVersion>
-        <hadoopHdfsVersion>2.0.0-cdh4.3.0</hadoopHdfsVersion>
-        <hadoopCommonVersion>2.0.0-cdh4.3.0</hadoopCommonVersion>
-        <hadoopCoreVersion>2.0.0-mr1-cdh4.3.0</hadoopCoreVersion>
+        <hbaseVersion>0.94.17</hbaseVersion>
+        <hadoopHdfsVersion>0.23.11</hadoopHdfsVersion>
+        <hadoopCommonVersion>0.23.11</hadoopCommonVersion>
+        <hadoopCoreVersion>1.0.3</hadoopCoreVersion>
         <awsVersion>1.5.4</awsVersion>
-        <slf4jVersion>1.6.1</slf4jVersion>
+        <slf4jVersion>1.4.3</slf4jVersion>
         <mrunitVersion>0.9.0-incubating</mrunitVersion>
     </properties>
 
@@ -221,17 +221,17 @@
             <version>${slf4jVersion}</version>
         </dependency>
         <!-- SLF4J library for replacing jakarta commons logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4jVersion}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>jcl-over-slf4j</artifactId>-->
+            <!--<version>${slf4jVersion}</version>-->
+        <!--</dependency>-->
         <!-- SLF4J library for interacting with java.util logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>${slf4jVersion}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>jul-to-slf4j</artifactId>-->
+            <!--<version>${slf4jVersion}</version>-->
+        <!--</dependency>-->
         <!-- SLF4J library for simple output: used in last good build scripts -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -278,6 +278,16 @@
                     <descriptors>
                         <descriptor>src/assembly/build.xml</descriptor>
                     </descriptors>
+
+                    <archive>
+                        <manifest>
+                            <mainClass>com.imgur.backup.SnapshotS3Util</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+
                 </configuration>
             </plugin>
 

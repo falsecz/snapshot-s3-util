@@ -18,10 +18,7 @@ package com.imgur.backup;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -190,7 +187,6 @@ public class SnapshotS3Util extends Configured implements Tool
 
     /**
      * Synchronously create a snapshot of given table
-     * @param tableName
      * @param snapshotName
      * @return
      */
@@ -234,6 +230,8 @@ public class SnapshotS3Util extends Configured implements Tool
             Long.toString(mappers)
         };
 
+        System.out.println(Arrays.toString(args));
+
         try {
             LOG.info("Destination: {}", url);
             ret = ToolRunner.run(getNormalConfiguration(), new ExportSnapshot(), args);
@@ -275,6 +273,7 @@ public class SnapshotS3Util extends Configured implements Tool
                 "-mappers",
                 Long.toString(mappers)
             };
+            System.out.println(Arrays.toString(args));
 
             // Override dfs configuration to point to S3
             config.set("fs.default.name", s3protocol + accessKey + ":" + accessSecret + "@" + bucketName);
@@ -325,7 +324,7 @@ public class SnapshotS3Util extends Configured implements Tool
             return snapshotName;
         }
         
-        return tableName + "-snapshot-" + DATE_FORMAT.format(new Date());
+        return tableName + "-backup-snapshot-" + DATE_FORMAT.format(new Date());
     }
 
     /**
