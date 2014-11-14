@@ -139,6 +139,9 @@ public class SnapshotS3Util extends Configured implements Tool
             
             if (snapshots != null) {
                 for (SnapshotDescription snapshot : snapshots) {
+                    if(snapshot.getName().indexOf("backup-snapshot") == -1) {
+                        continue;
+                    }
                     long created = snapshot.getCreationTime();
                     long diff = (now - created) / 1000;
                     LOG.debug("Found snapshot '{}'. Created: {}", snapshot.getName(), created);
