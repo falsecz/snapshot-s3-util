@@ -15,30 +15,28 @@
  */
 package com.imgur.backup;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.SnapshotDescription;
+
+import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
 import org.apache.hadoop.hbase.snapshot.ExportSnapshot;
 import org.apache.hadoop.hbase.snapshot.SnapshotCreationException;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Create snapshots of tables and export/import to/from S3
@@ -130,15 +128,16 @@ public class SnapshotS3Util extends Configured implements Tool
     
     private void maintainSnapshots(Configuration config)
     {
-        HBaseAdmin admin = null;
+
+        org.apache.hadoop.hbase.client.HBaseAdmin admin = null;
         long now = System.currentTimeMillis();
 
         try {
             admin = new HBaseAdmin(config);
-            List<SnapshotDescription> snapshots = admin.listSnapshots();
+            List<HBaseProtos.SnapshotDescription> snapshots = admin.listSnapshots();
             
             if (snapshots != null) {
-                for (SnapshotDescription snapshot : snapshots) {
+                for (HBaseProtos.SnapshotDescription snapshot : snapshots) {
                     if(!snapshot.getName().contains("backup-snapshot")) {
                         continue;
                     }
